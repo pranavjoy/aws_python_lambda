@@ -10,8 +10,10 @@ pipeline {
       
       stage('Deliver') {
           steps {
-                 sh 'aws lambda update-function-code --function-name myLambda --zip-file fileb://lambda_function.zip'
-          }
+		withAWS(credentials: 'jenkins_AWS', region: 'eu-west-3') {
+                	 sh 'aws lambda update-function-code --function-name myLambda --zip-file fileb://lambda_function.zip'
+		}
+	    }
       }
       
       stage('Integration test') {
